@@ -1,42 +1,68 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Valentine's Day Global Styles */
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    hsl(340 55% 90%),
+    hsl(345 70% 85%),
+    hsl(20 75% 87%),
+    hsl(275 40% 85%),
+    hsl(340 55% 90%)
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 15s ease-in-out infinite;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Flip card system */
+.flip-card {
+  perspective: 1000px;
 }
 
-.card {
-  padding: 2em;
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
 }
 
-.read-the-docs {
-  color: #888;
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Starry background for forever section */
+.starry-gradient {
+  background: linear-gradient(
+    180deg,
+    hsl(340 50% 18%) 0%,
+    hsl(280 35% 12%) 40%,
+    hsl(240 30% 8%) 100%
+  );
 }
