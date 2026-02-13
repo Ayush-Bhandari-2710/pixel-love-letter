@@ -1,3 +1,4 @@
+import AmbientBackground from '@/components/valentine/AmbientBackground';
 import FloatingHearts from '@/components/valentine/FloatingHearts';
 import HeroSection from '@/components/valentine/HeroSection';
 import LoveLetterSection from '@/components/valentine/LoveLetterSection';
@@ -10,9 +11,10 @@ import ValentineFooter from '@/components/valentine/ValentineFooter';
 
 const Index = () => {
   return (
-    <div className="relative overflow-x-hidden bg-background">
+    <div className="relative overflow-x-hidden">
+      <AmbientBackground />
       <FloatingHearts />
-      <main>
+      <main className="relative z-[1]">
         <HeroSection />
         <LoveLetterSection />
         <MemoriesSection />

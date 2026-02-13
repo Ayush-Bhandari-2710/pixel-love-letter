@@ -41,21 +41,6 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 hero-gradient" />
-
-      {/* Soft ambient glow orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-72 md:w-96 h-72 md:h-96 rounded-full bg-valentine-rose/10 blur-3xl animate-heartbeat" />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-60 md:w-80 h-60 md:h-80 rounded-full bg-valentine-lavender/10 blur-3xl animate-heartbeat"
-          style={{ animationDelay: '1s' }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 md:w-64 h-48 md:h-64 rounded-full bg-valentine-peach/10 blur-3xl animate-heartbeat"
-          style={{ animationDelay: '2s' }}
-        />
-      </div>
-
       <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -66,12 +51,12 @@ const HeroSection = () => {
           💖
         </motion.div>
 
-        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-valentine-deep mb-6 min-h-[2.4em] md:min-h-[1.5em] leading-tight">
+        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-6 min-h-[2.4em] md:min-h-[1.5em] leading-tight">
           {titleText}
           {showCursor && <span className="animate-pulse ml-1 text-valentine-rose">|</span>}
         </h1>
 
-        <p className="text-lg md:text-xl text-valentine-deep/60 mb-12 min-h-[1.5em] font-light tracking-wide italic">
+        <p className="text-lg md:text-xl text-primary-foreground/50 mb-12 min-h-[1.5em] font-light tracking-wide italic">
           {subtitle.split('').map((char, i) => (
             <span
               key={i}

@@ -26,7 +26,7 @@ const PromisesSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
-        className="text-center font-serif text-3xl md:text-4xl text-valentine-deep mb-16"
+        className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-16"
       >
         💞 My Promises To You
       </motion.h2>
@@ -50,7 +50,7 @@ const PromisesSection = () => {
                 style={{ animationDelay: `${index * 0.5}s` }}
               />
 
-              <p className="font-serif text-lg md:text-xl text-valentine-deep/90 leading-relaxed">
+              <p className="font-serif text-lg md:text-xl text-primary-foreground/90 leading-relaxed">
                 {promise}
               </p>
 

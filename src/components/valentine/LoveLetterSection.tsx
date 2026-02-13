@@ -41,7 +41,7 @@ const LoveLetterSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center font-serif text-3xl md:text-4xl text-valentine-deep mb-10"
+          className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-10"
         >
           💌 A Letter For You
         </motion.h2>
@@ -63,7 +63,7 @@ const LoveLetterSection = () => {
                 } ${
                   line === 'My Dearest,' || line === 'Forever yours ♥'
                     ? 'text-valentine-rose font-semibold text-xl md:text-2xl'
-                    : 'text-valentine-deep/80'
+                    : 'text-primary-foreground/80'
                 } ${line === 'You are my always.' ? 'text-valentine-rose font-bold text-xl md:text-2xl mt-2' : ''}`}
               >
                 {line}

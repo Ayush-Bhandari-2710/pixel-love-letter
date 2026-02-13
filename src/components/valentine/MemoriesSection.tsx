@@ -34,48 +34,54 @@ const memories = [
   },
 ];
 
+// Duplicate for seamless loop
+const marqueeItems = [...memories, ...memories];
+
 const MemoriesSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-32 overflow-hidden">
+    <section ref={sectionRef} className="py-20 md:py-32 overflow-hidden relative">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
-        className="text-center font-serif text-3xl md:text-4xl text-valentine-deep mb-12 px-4"
+        className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-12 px-4"
       >
         📸 Our Moments
       </motion.h2>
 
-      <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 px-6 md:px-12 scrollbar-hide">
-        {memories.map((memory, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: 60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: index * 0.15, ease: 'easeOut' }}
-            className="snap-center shrink-0 w-72 md:w-80"
-          >
+      {/* Edge blur masks */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none bg-gradient-to-r from-[hsl(220,40%,8%)] to-transparent" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none bg-gradient-to-l from-[hsl(220,40%,8%)] to-transparent" />
+
+      {/* Marquee container */}
+      <div className="relative">
+        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused]">
+          {marqueeItems.map((memory, index) => (
             <div
-              className="glass-card rounded-2xl p-6 h-64 flex flex-col justify-between group cursor-default animate-gentle-float hover:shadow-xl hover:shadow-valentine-rose/15 hover:-translate-y-2 transition-all duration-500"
-              style={{ animationDelay: `${index * 0.8}s` }}
+              key={index}
+              className="shrink-0 w-72 md:w-80 group"
             >
-              <div>
-                <span className="text-4xl mb-3 block group-hover:animate-heartbeat">
-                  {memory.emoji}
-                </span>
-                <h3 className="font-serif text-xl text-valentine-deep mb-2 group-hover:text-valentine-rose transition-colors duration-300">
-                  {memory.title}
-                </h3>
+              <div
+                className="glass-card rounded-2xl p-6 h-64 flex flex-col justify-between cursor-default border border-white/10 hover:scale-105 hover:shadow-xl hover:shadow-valentine-rose/15 transition-all duration-500"
+              >
+                <div>
+                  <span className="text-4xl mb-3 block group-hover:animate-heartbeat">
+                    {memory.emoji}
+                  </span>
+                  <h3 className="font-serif text-xl text-primary-foreground mb-2 group-hover:text-valentine-rose transition-colors duration-300">
+                    {memory.title}
+                  </h3>
+                </div>
+                <p className="text-primary-foreground/50 text-sm leading-relaxed">
+                  {memory.description}
+                </p>
               </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {memory.description}
-              </p>
             </div>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

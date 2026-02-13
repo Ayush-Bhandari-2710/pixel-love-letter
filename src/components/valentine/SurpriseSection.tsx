@@ -28,12 +28,11 @@ const SurpriseSection = () => {
 
   return (
     <section className="py-20 md:py-32 px-4 relative overflow-hidden">
-      <h2 className="text-center font-serif text-3xl md:text-4xl text-valentine-deep mb-16">
+      <h2 className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-16">
         🎁 A Little Surprise
       </h2>
 
       <div className="flex flex-col items-center justify-center relative">
-        {/* Gift box */}
         <AnimatePresence mode="wait">
           {state === 'closed' && (
             <motion.button
@@ -51,7 +50,6 @@ const SurpriseSection = () => {
           )}
         </AnimatePresence>
 
-        {/* Confetti hearts */}
         {state === 'open' && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             {confettiHearts.map(heart => (
@@ -74,7 +72,6 @@ const SurpriseSection = () => {
           </div>
         )}
 
-        {/* Revealed message + CTA */}
         {state === 'open' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -87,13 +84,12 @@ const SurpriseSection = () => {
               "No matter where life takes us, I'm always yours."
             </p>
 
-            {/* Valentine Story CTA */}
             <motion.button
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.8 }}
               onClick={() => setSlideshowOpen(true)}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-rose-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-rose-500/30 hover:scale-105 transition-all duration-300 cursor-pointer animate-heartbeat"
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-rose-500 text-primary-foreground font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-rose-500/30 hover:scale-105 transition-all duration-300 cursor-pointer animate-heartbeat"
             >
               Open My Valentine Story ❤️
             </motion.button>
@@ -105,14 +101,13 @@ const SurpriseSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="mt-6 text-muted-foreground text-sm animate-pulse"
+            className="mt-6 text-primary-foreground/40 text-sm animate-pulse"
           >
             Tap to open ✨
           </motion.p>
         )}
       </div>
 
-      {/* Valentine Slideshow Modal */}
       <ValentineSlideshow open={slideshowOpen} onOpenChange={setSlideshowOpen} />
     </section>
   );

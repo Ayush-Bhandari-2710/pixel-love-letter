@@ -1,30 +1,11 @@
 /* Valentine's Day Global Styles */
 
-.hero-gradient {
-  background: linear-gradient(
-    135deg,
-    hsl(340 55% 90%),
-    hsl(345 70% 85%),
-    hsl(20 75% 87%),
-    hsl(275 40% 85%),
-    hsl(340 55% 90%)
-  );
-  background-size: 300% 300%;
-  animation: gradient-shift 15s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Glassmorphism card */
+/* Glassmorphism card - dark theme */
 .glass-card {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Flip card system */
