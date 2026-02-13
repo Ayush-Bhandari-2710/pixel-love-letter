@@ -20,10 +20,10 @@ interface HeartBurst {
 const ReasonsSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const [revealed, setRevealed] = useState(false);
   const [bursts, setBursts] = useState<HeartBurst[]>([]);
 
   const triggerBurst = useCallback((e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const burst: HeartBurst = {
       id: Date.now(),
       hearts: Array.from({ length: 12 }, () => ({
@@ -38,48 +38,82 @@ const ReasonsSection = () => {
     setTimeout(() => setBursts(prev => prev.filter(b => b.id !== burst.id)), 3000);
   }, []);
 
+  const handleReveal = () => {
+    setRevealed(true);
+  };
+
   return (
     <section ref={sectionRef} className="py-20 md:py-32 px-4 relative">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
-        className="text-center font-serif text-3xl md:text-4xl text-valentine-deep mb-12"
+        className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-12"
       >
         🌹 Reasons I Love You
       </motion.h2>
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {reasons.map((reason, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            onClick={triggerBurst}
-            className="flip-card h-44 cursor-pointer relative"
+      {/* CTA Button - shown before reveal */}
+      {!revealed && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex flex-col items-center gap-4 mb-12"
+        >
+          <motion.button
+            onClick={handleReveal}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-10 py-4 rounded-full bg-gradient-to-r from-valentine-rose to-valentine-glow text-primary-foreground text-lg font-serif shadow-lg shadow-valentine-rose/30 animate-heartbeat cursor-pointer transition-shadow duration-500 hover:shadow-xl hover:shadow-valentine-rose/40"
           >
-            <div className="flip-card-inner rounded-2xl">
-              {/* Front */}
-              <div className="flip-card-front glass-card rounded-2xl p-5 flex flex-col items-center justify-center text-center">
-                <span
-                  className="text-2xl mb-2 animate-heartbeat inline-block"
-                  style={{ animationDelay: `${index * 0.4}s` }}
-                >
-                  ❤️
-                </span>
-                <p className="font-serif text-valentine-deep text-base">{reason.front}</p>
+            Reasons I Love You ❤️
+          </motion.button>
+          <p className="text-primary-foreground/40 text-sm italic font-light">
+            No matter how many reasons I give… it will never be enough.
+          </p>
+        </motion.div>
+      )}
+
+      {/* Cards grid - revealed on click */}
+      {revealed && (
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {reasons.map((reason, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+              transition={{
+                type: 'spring',
+                stiffness: 200,
+                damping: 18,
+                delay: index * 0.08,
+              }}
+              onClick={triggerBurst}
+              className="flip-card h-44 cursor-pointer relative"
+            >
+              <div className="flip-card-inner rounded-2xl">
+                {/* Front */}
+                <div className="flip-card-front glass-card rounded-2xl p-5 flex flex-col items-center justify-center text-center border border-white/10 hover:shadow-lg hover:shadow-valentine-rose/20 transition-shadow duration-500">
+                  <span
+                    className="text-2xl mb-2 animate-heartbeat inline-block"
+                    style={{ animationDelay: `${index * 0.4}s` }}
+                  >
+                    ❤️
+                  </span>
+                  <p className="font-serif text-primary-foreground text-base">{reason.front}</p>
+                </div>
+                {/* Back */}
+                <div className="flip-card-back rounded-2xl p-5 flex items-center justify-center text-center bg-gradient-to-br from-valentine-rose to-valentine-glow">
+                  <p className="text-primary-foreground text-sm leading-relaxed font-light">
+                    {reason.back}
+                  </p>
+                </div>
               </div>
-              {/* Back */}
-              <div className="flip-card-back rounded-2xl p-5 flex items-center justify-center text-center bg-gradient-to-br from-valentine-rose to-valentine-glow">
-                <p className="text-primary-foreground text-sm leading-relaxed font-light">
-                  {reason.back}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Heart bursts */}
       {bursts.map(burst => (
