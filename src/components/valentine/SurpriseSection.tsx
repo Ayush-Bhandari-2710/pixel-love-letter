@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ValentineSlideshow from './ValentineSlideshow';
 
 const SurpriseSection = () => {
   const [state, setState] = useState<'closed' | 'opening' | 'open'>('closed');
+  const [slideshowOpen, setSlideshowOpen] = useState(false);
 
   const confettiHearts = useMemo(
     () =>
@@ -72,7 +74,7 @@ const SurpriseSection = () => {
           </div>
         )}
 
-        {/* Revealed message */}
+        {/* Revealed message + CTA */}
         {state === 'open' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -81,9 +83,20 @@ const SurpriseSection = () => {
             className="text-center max-w-md"
           >
             <p className="text-5xl mb-6">💝</p>
-            <p className="font-handwriting text-2xl md:text-3xl text-valentine-rose leading-relaxed">
+            <p className="font-handwriting text-2xl md:text-3xl text-valentine-rose leading-relaxed mb-8">
               "No matter where life takes us, I'm always yours."
             </p>
+
+            {/* Valentine Story CTA */}
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+              onClick={() => setSlideshowOpen(true)}
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-rose-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-rose-500/30 hover:scale-105 transition-all duration-300 cursor-pointer animate-heartbeat"
+            >
+              Open My Valentine Story ❤️
+            </motion.button>
           </motion.div>
         )}
 
@@ -98,6 +111,9 @@ const SurpriseSection = () => {
           </motion.p>
         )}
       </div>
+
+      {/* Valentine Slideshow Modal */}
+      <ValentineSlideshow open={slideshowOpen} onOpenChange={setSlideshowOpen} />
     </section>
   );
 };
