@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import img0 from '../../assets/image.png';
 import img1 from '../../assets/image1.png';
 import img2 from '../../assets/image2.png';
-import img3 from '../../assets/image3.jpeg';
+import img3 from '../../assets/image3.png';
 import img4 from '../../assets/image4.png';
 import img5 from '../../assets/image5.png';
 import img6 from '../../assets/image6.png';
@@ -132,31 +132,28 @@ const HeartSection = () => {
                 <path d="M50 88 C25 65, 2 45, 2 28 C2 14, 14 2, 28 2 C38 2, 46 8, 50 18 C54 8, 62 2, 72 2 C86 2, 98 14, 98 28 C98 45, 75 65, 50 88Z" />
               </clipPath>
 
-              {/* Soft edge mask - radial gradient for vignette effect */}
-              <radialGradient id="softEdgeMask">
-                <stop offset="0%" stopColor="white" stopOpacity="1" />
-                <stop offset="50%" stopColor="white" stopOpacity="1" />
-                <stop offset="85%" stopColor="white" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="white" stopOpacity="0" />
-              </radialGradient>
+              {/* Subtle edge softening - rectangular with soft edges */}
+              <filter id="softEdges" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" />
+              </filter>
 
-              {/* Mask definition using the gradient */}
-              <mask id="vignetteEllipse">
-                <ellipse cx="50" cy="50" rx="50" ry="50" fill="url(#softEdgeMask)" />
-              </mask>
-
-              {/* Individual masks for each image with feathered edges */}
-              {imageLayout.map((item, index) => (
-                <mask key={`mask-${index}`} id={`imageMask${index}`}>
-                  <ellipse
-                    cx={item.x}
-                    cy={item.y}
-                    rx={item.width / 2}
-                    ry={item.height / 2}
-                    fill="url(#softEdgeMask)"
-                  />
-                </mask>
-              ))}
+              {/* Individual masks for each image - rectangular with soft fade at edges */}
+              {imageLayout.map((item, index) => {
+                const halfWidth = item.width / 2;
+                const halfHeight = item.height / 2;
+                return (
+                  <mask key={`mask-${index}`} id={`imageMask${index}`}>
+                    <rect
+                      x={item.x - halfWidth}
+                      y={item.y - halfHeight}
+                      width={item.width}
+                      height={item.height}
+                      fill="white"
+                      filter="url(#softEdges)"
+                    />
+                  </mask>
+                );
+              })}
             </defs>
 
             {/* Background fill */}
@@ -165,7 +162,7 @@ const HeartSection = () => {
               fill="rgba(255,60,110,0.15)"
             />
 
-            {/* Images - Mosaic layout with soft edges */}
+            {/* Images - Mosaic layout with subtle soft edges */}
             <g clipPath="url(#heartClip)">
               {imageLayout.map((item, index) => {
                 const halfWidth = item.width / 2;
