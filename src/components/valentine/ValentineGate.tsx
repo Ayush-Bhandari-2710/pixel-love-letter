@@ -66,8 +66,8 @@ const ValentineGate = ({ onAccept }: ValentineGateProps) => {
   }, [visible]);
 
   const dodgeNo = useCallback(() => {
-    const maxX = 120;
-    const maxY = 60;
+    const maxX = 140;
+    const maxY = 80;
     setNoPos({
       x: (Math.random() - 0.5) * maxX * 2,
       y: (Math.random() - 0.5) * maxY * 2,
@@ -159,15 +159,26 @@ const ValentineGate = ({ onAccept }: ValentineGateProps) => {
                 YES 💖
               </motion.button>
 
-              <motion.button
+              <motion.div
                 animate={{ x: noPos.x, y: noPos.y }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                onMouseEnter={dodgeNo}
-                onTouchStart={dodgeNo}
-                className="px-10 py-4 rounded-full bg-white/10 backdrop-blur-sm text-primary-foreground/60 text-lg font-serif border border-white/10 cursor-pointer"
+                transition={{ type: 'spring', stiffness: 200, damping: 15, bounce: 0.4 }}
+                className="relative"
               >
-                NO 🙈
-              </motion.button>
+                {/* Invisible larger detection zone */}
+                <div
+                  className="absolute -inset-[150px] z-10"
+                  onMouseEnter={dodgeNo}
+                  onTouchStart={dodgeNo}
+                />
+                <button
+                  className="relative z-20 px-10 py-4 rounded-full bg-white/10 backdrop-blur-sm text-primary-foreground/60 text-lg font-serif border border-white/10 cursor-pointer"
+                  onMouseEnter={dodgeNo}
+                  onTouchStart={dodgeNo}
+                  onClick={dodgeNo}
+                >
+                  NO 🙈
+                </button>
+              </motion.div>
             </div>
           </motion.div>
 
