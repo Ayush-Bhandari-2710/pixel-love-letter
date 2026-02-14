@@ -230,7 +230,7 @@ const ValentineGate = ({ onAccept }: ValentineGateProps) => {
                 className="absolute z-20 font-serif text-3xl md:text-5xl text-valentine-rose"
                 style={{ textShadow: '0 0 40px hsl(345 80% 60% / 0.6)' }}
               >
-                She said YES 💍
+                Yayyy Wifey said YES 💍Hehehehe
               </motion.p>
             </>
           )}
