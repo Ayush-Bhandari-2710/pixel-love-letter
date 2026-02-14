@@ -2,14 +2,38 @@ import { useRef, useState, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const reasons = [
-  { front: 'Your kindness', back: 'The way you care for others without expecting anything in return.' },
-  { front: 'Your strength', back: 'How you face every challenge with grace that takes my breath away.' },
-  { front: 'The way you say my name', back: 'It sounds different when you say it — like it finally means something.' },
-  { front: 'Your laugh', back: "It's the soundtrack to every happy memory I have." },
-  { front: 'Your patience', back: 'How you love me gently, even on my hardest days.' },
-  { front: 'The way you see me', back: "You see the person I'm still becoming, and you love them already." },
-  { front: 'Your courage', back: 'How you choose vulnerability over walls, every single time.' },
-  { front: 'Everything unsaid', back: 'The love in the small moments — a touch, a glance, a knowing smile.' },
+  {
+    front: 'The way you say “hajur”',
+    back: 'That soft little “hajur” when I call you. You don’t even realize how much comfort fits into that one word.',
+  },
+  {
+    front: 'Your quiet strength',
+    back: 'You’ve been through things that could have hardened you  but you still choose softness. That takes more courage than anyone sees.',
+  },
+  {
+    front: 'Your honesty',
+    back: 'You never pretend with me. Even when it’s uncomfortable. Even when it’s scary. That kind of truth is rare.',
+  },
+  {
+    front: 'The way you care deeply',
+    back: 'You act strong, but your heart feels everything. The world is gentler because you’re in it.',
+  },
+  {
+    front: 'Your stubborn heart',
+    back: 'You don’t give love easily. And that’s exactly why it means everything when you do.',
+  },
+  {
+    front: 'The way you stay',
+    back: 'In a world where people leave at the first difficulty, you try. You talk. You fix. You stay.',
+  },
+  {
+    front: 'Your laugh at 2AM',
+    back: 'When we’re half-asleep but still talking, and you laugh softly like the world doesn’t exist outside us.',
+  },
+  {
+    front: 'The way you let me see you',
+    back: 'The guarded parts. The unsure parts. The strong and the fragile. You let me in and that’s something I never take lightly.',
+  },
 ];
 
 interface HeartBurst {
@@ -23,97 +47,125 @@ const ReasonsSection = () => {
   const [revealed, setRevealed] = useState(false);
   const [bursts, setBursts] = useState<HeartBurst[]>([]);
 
-  const triggerBurst = useCallback((e: React.MouseEvent) => {
+  const triggerBurst = useCallback(() => {
     const burst: HeartBurst = {
       id: Date.now(),
-      hearts: Array.from({ length: 12 }, () => ({
-        x: (Math.random() - 0.5) * 200,
-        y: -(Math.random() * 150 + 50),
-        rotate: Math.random() * 540 - 270,
-        scale: Math.random() * 0.5 + 0.3,
+      hearts: Array.from({ length: 14 }, () => ({
+        x: (Math.random() - 0.5) * 250,
+        y: -(Math.random() * 200 + 50),
+        rotate: Math.random() * 720 - 360,
+        scale: Math.random() * 0.6 + 0.4,
         delay: Math.random() * 0.3,
       })),
     };
+
     setBursts(prev => [...prev, burst]);
-    setTimeout(() => setBursts(prev => prev.filter(b => b.id !== burst.id)), 3000);
+    setTimeout(() => {
+      setBursts(prev => prev.filter(b => b.id !== burst.id));
+    }, 2500);
   }, []);
 
-  const handleReveal = () => {
-    setRevealed(true);
-  };
-
   return (
-    <section ref={sectionRef} className="py-20 md:py-32 px-4 relative">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="text-center font-serif text-3xl md:text-4xl text-primary-foreground mb-12"
-      >
-        🌹 Reasons I Love You
-      </motion.h2>
+    <section
+      ref={sectionRef}
+      className="relative py-28 md:py-40 px-4 overflow-hidden"
+    >
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,45%,8%)] via-[hsl(330,35%,14%)] to-[hsl(210,45%,10%)]" />
 
-      {/* CTA Button - shown before reveal */}
-      {!revealed && (
-        <motion.div
+      {/* Soft color glows */}
+      <div className="absolute -top-20 left-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-emerald-400/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-rose-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+
+      <div className="relative z-10">
+
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-col items-center gap-4 mb-12"
+          transition={{ duration: 0.8 }}
+          className="text-center font-serif text-4xl md:text-5xl text-white mb-16 tracking-wide"
+          style={{ textShadow: '0 0 30px rgba(255,120,150,0.4)' }}
         >
-          <motion.button
-            onClick={handleReveal}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="px-10 py-4 rounded-full bg-gradient-to-r from-valentine-rose to-valentine-glow text-primary-foreground text-lg font-serif shadow-lg shadow-valentine-rose/30 animate-heartbeat cursor-pointer transition-shadow duration-500 hover:shadow-xl hover:shadow-valentine-rose/40"
-          >
-            Reasons I Love You ❤️
-          </motion.button>
-          <p className="text-primary-foreground/40 text-sm italic font-light">
-            No matter how many reasons I give… it will never be enough.
-          </p>
-        </motion.div>
-      )}
+          🌹 Reasons I Love You
+        </motion.h2>
 
-      {/* Cards grid - revealed on click */}
-      {revealed && (
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-              transition={{
-                type: 'spring',
-                stiffness: 200,
-                damping: 18,
-                delay: index * 0.08,
-              }}
-              onClick={triggerBurst}
-              className="flip-card h-44 cursor-pointer relative"
+        {!revealed && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col items-center gap-5 mb-16"
+          >
+            <motion.button
+              onClick={() => setRevealed(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              className="px-12 py-4 rounded-full bg-gradient-to-r from-rose-400 via-blue-500 to-emerald-400 text-white text-lg font-serif shadow-xl hover:shadow-2xl transition-all duration-500 animate-heartbeat"
             >
-              <div className="flip-card-inner rounded-2xl">
-                {/* Front */}
-                <div className="flip-card-front glass-card rounded-2xl p-5 flex flex-col items-center justify-center text-center border border-white/10 hover:shadow-lg hover:shadow-valentine-rose/20 transition-shadow duration-500">
-                  <span
-                    className="text-2xl mb-2 animate-heartbeat inline-block"
-                    style={{ animationDelay: `${index * 0.4}s` }}
+              Reasons I Love You ❤️
+            </motion.button>
+
+            <p className="text-white/50 text-l italic">
+              No matter how many reasons I give… it will never be enough.
+            </p>
+          </motion.div>
+        )}
+
+        {revealed && (
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+            {reasons.map((reason, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 200,
+                  damping: 18,
+                  delay: index * 0.08,
+                }}
+                onClick={triggerBurst}
+                className="flip-card h-56 cursor-pointer relative"
+              >
+                <div className="flip-card-inner rounded-2xl">
+
+                  {/* Front */}
+                  <div
+                    className="flip-card-front rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-white/10 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                    style={{
+                      background:
+                        index % 3 === 0
+                          ? 'linear-gradient(145deg, rgba(255,100,150,0.08), rgba(255,100,150,0.03))'
+                          : index % 3 === 1
+                          ? 'linear-gradient(145deg, rgba(59,130,246,0.08), rgba(59,130,246,0.03))'
+                          : 'linear-gradient(145deg, rgba(16,185,129,0.08), rgba(16,185,129,0.03))',
+                    }}
                   >
-                    ❤️
-                  </span>
-                  <p className="font-serif text-primary-foreground text-base">{reason.front}</p>
+                    <span
+                      className="text-3xl mb-3 animate-heartbeat inline-block"
+                      style={{ animationDelay: `${index * 0.4}s` }}
+                    >
+                      ❤️
+                    </span>
+                    <p className="font-serif text-white text-base">
+                      {reason.front}
+                    </p>
+                  </div>
+
+                  {/* Back */}
+                  <div className="flip-card-back rounded-2xl p-6 flex items-center justify-center text-center backdrop-blur-xl bg-gradient-to-br from-rose-400/80 via-blue-500/60 to-emerald-400/60 shadow-2xl">
+                    <p className="text-white text-sm leading-relaxed font-light">
+                      {reason.back}
+                    </p>
+                  </div>
+
                 </div>
-                {/* Back */}
-                <div className="flip-card-back rounded-2xl p-5 flex items-center justify-center text-center bg-gradient-to-br from-valentine-rose to-valentine-glow">
-                  <p className="text-primary-foreground text-sm leading-relaxed font-light">
-                    {reason.back}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      )}
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Heart bursts */}
       {bursts.map(burst => (

@@ -2,25 +2,36 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const letterLines = [
-  "My Dearest,",
+  "My Love,",
   "",
-  "If I could freeze time, I'd choose this moment — the one where you're reading these words, knowing that every single one was written with you on my mind.",
+  "If I could pause the world for just one second, I would choose this exact moment the one where your eyes are moving across these words, where your heart is quietly listening to mine.",
   "",
-  "Before you, I thought love was something you find. But with you, I learned it's something that finds you — quietly, gently, and then all at once.",
+  "Before you, I thought love was something dramatic and loud something people chased. But with you, I learned that real love is gentle. It arrives softly. It settles in your chest. And suddenly, you cannot imagine your life without it.",
   "",
-  "You are my favorite hello and my hardest goodbye. You are the calm in my chaos, the warmth in my winter, and the reason I believe that some things in this world are simply meant to be.",
+  "You didn’t just enter my life. You changed its rhythm. The way I think. The way I hope. The way I see tomorrow.",
   "",
-  "I don't love you because of what you give me. I love you because of who I become when I'm with you — softer, braver, more myself than I've ever been.",
+  "There are days when you don’t see how extraordinary you are. Days when you doubt yourself, when the world feels heavier than it should. I wish you could see yourself through my eyes because I see strength in your softness, beauty in your imperfections, and light in places you don’t even notice.",
   "",
-  "Every day with you feels like a gift I didn't know I was allowed to ask for. And yet, here you are — real, beautiful, mine.",
+  "You are not just the girl I love. You are the peace I didn’t know I needed. You are the comfort in my chaos, the warmth in my cold days, the quiet reassurance that I am exactly where I am meant to be.",
   "",
-  "I choose you. Not just today, not just on Valentine's Day — but on every ordinary Tuesday, every difficult Monday, every quiet Sunday morning.",
+  "I don’t love you for what you give me. I love you for who you are when no one is watching. I love your stubborn heart. Your honesty. The way you care deeply but pretend you don’t. The way you say things that stay with me long after the conversation ends.",
+  "",
+  "You have seen parts of me that I hide from the world and instead of walking away, you stayed. That means more to me than I will ever be able to explain properly.",
+  "",
+  "I choose you. Not just when things are easy. Not just on days filled with roses and sweet words. I choose you when we disagree. I choose you when life tests us. I choose you when we are tired. I choose you in the ordinary, quiet, messy moments that make up real life.",
+  "",
+  "If there is one promise I can make you, it is this:",
+  "",
+  "I will never stop trying. Never stop caring. Never stop choosing us.",
+  "",
+  "You are not temporary to me. You are not a chapter.",
   "",
   "You are my always.",
   "",
+  "And if my heart beats a little louder when you’re near… it’s only because it finally found where it belongs.",
+  "",
   "Forever yours ♥",
 ];
-
 const LoveLetterSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });

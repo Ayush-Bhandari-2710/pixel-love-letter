@@ -3,36 +3,37 @@ import { motion, useInView } from 'framer-motion';
 
 const memories = [
   {
-    emoji: '✨',
-    title: 'The First Time I Knew',
-    description: 'That moment when everything shifted, and I realized you were different from anyone I\'d ever met.',
+    emoji: '🌶️',
+    title: 'The Day Mirchi Became Mine',
+    description: 'The moment I stopped seeing you as just a girl I liked and started seeing you as the one I wanted to protect, understand, and grow with. That shift was quiet… but permanent.',
   },
   {
     emoji: '🌙',
-    title: 'Our Late-Night Talks',
-    description: 'Hours that felt like minutes, sharing secrets and dreams under the soft glow of midnight.',
+    title: '2AM & Still Talking',
+    description: 'When the world was asleep but we weren’t. When “just five more minutes” turned into hours. When distance didn’t matter because our voices carried everything.',
   },
   {
-    emoji: '👀',
-    title: 'That Look You Give Me',
-    description: 'The one that says everything words can\'t. The one I\'ll never get tired of.',
+    emoji: '💬',
+    title: 'The Way You Say “Hajur”',
+    description: 'That soft little “hajur” when I call your name. You probably don’t realize it, but that single word melts me every single time.',
   },
   {
-    emoji: '🗺️',
-    title: 'Our First Adventure',
-    description: 'When we discovered that the best journeys are the ones where we get lost together.',
+    emoji: '🛡️',
+    title: 'The First Time You Let Your Guard Down',
+    description: 'When you told me about your past, about the betrayals, about the fear of things not lasting. That’s when I knew loving you meant choosing patience, safety, and consistency.',
   },
   {
-    emoji: '🤫',
-    title: 'The Comfortable Silence',
-    description: 'When being next to you became the most peaceful place in the world.',
+    emoji: '🏠',
+    title: 'The Hard Days at Home',
+    description: 'The days when things felt heavy for you. When I couldn’t physically be there, but I promised myself I would be your calm, your safe space, even from miles away.',
   },
   {
-    emoji: '😄',
-    title: 'Your Laugh',
-    description: 'The sound that made the whole world stop, just for a second, so I could listen.',
+    emoji: '❤️',
+    title: 'The Moment I Chose You',
+    description: 'Not just because you’re beautiful. Not just because you’re kind. But because even when things feel uncertain, my heart never hesitates about you.',
   },
 ];
+
 
 // Duplicate for seamless loop
 const marqueeItems = [...memories, ...memories];

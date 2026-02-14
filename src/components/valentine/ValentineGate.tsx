@@ -55,7 +55,7 @@ interface ValentineGateProps {
 const ValentineGate = ({ onAccept }: ValentineGateProps) => {
   const [visible, setVisible] = useState(true);
   const [yesClicked, setYesClicked] = useState(false);
-  const [noPos, setNoPos] = useState({ x: 0, y: 0 });
+  const [noPos, setNoPos] = useState({ x: 150, y: 0 }); // Start offset to the right
   const containerRef = useRef<HTMLDivElement>(null);
   const [gifError, setGifError] = useState(false);
 
@@ -66,12 +66,37 @@ const ValentineGate = ({ onAccept }: ValentineGateProps) => {
   }, [visible]);
 
   const dodgeNo = useCallback(() => {
-    const maxX = 140;
-    const maxY = 80;
-    setNoPos({
-      x: (Math.random() - 0.5) * maxX * 2,
-      y: (Math.random() - 0.5) * maxY * 2,
-    });
+    // Generate new position that doesn't overlap with YES button
+    // YES button is at center (0, 0), NO button needs to stay away
+    let newX, newY;
+    let attempts = 0;
+    const minDistance = 200; // Minimum distance from YES button in pixels
+    
+    do {
+      // Generate random position
+      const maxX = 250;
+      const maxY = 150;
+      newX = (Math.random() - 0.5) * maxX * 2;
+      newY = (Math.random() - 0.5) * maxY * 2;
+      
+      // Calculate distance from YES button (which is at 0, 0)
+      const distance = Math.sqrt(newX * newX + newY * newY);
+      
+      // If far enough from YES, use this position
+      if (distance >= minDistance) {
+        break;
+      }
+      
+      attempts++;
+    } while (attempts < 20);
+    
+    // If we couldn't find a good spot, just move it far to the side
+    if (attempts >= 20) {
+      newX = (Math.random() > 0.5 ? 1 : -1) * (200 + Math.random() * 100);
+      newY = (Math.random() - 0.5) * 100;
+    }
+    
+    setNoPos({ x: newX, y: newY });
   }, []);
 
   const yesConfetti = useMemo(
@@ -164,14 +189,14 @@ const ValentineGate = ({ onAccept }: ValentineGateProps) => {
                 transition={{ type: 'spring', stiffness: 200, damping: 15, bounce: 0.4 }}
                 className="relative"
               >
-                {/* Invisible larger detection zone */}
+                {/* Invisible larger detection zone - triggers dodge before user gets close */}
                 <div
-                  className="absolute -inset-[150px] z-10"
+                  className="absolute -inset-[200px] z-10"
                   onMouseEnter={dodgeNo}
                   onTouchStart={dodgeNo}
                 />
                 <button
-                  className="relative z-20 px-10 py-4 rounded-full bg-white/10 backdrop-blur-sm text-primary-foreground/60 text-lg font-serif border border-white/10 cursor-pointer"
+                  className="relative z-20 px-10 py-4 rounded-full bg-white/10 backdrop-blur-sm text-primary-foreground/60 text-lg font-serif border border-white/10 cursor-pointer pointer-events-none"
                   onMouseEnter={dodgeNo}
                   onTouchStart={dodgeNo}
                   onClick={dodgeNo}

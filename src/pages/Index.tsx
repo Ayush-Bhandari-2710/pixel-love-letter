@@ -12,8 +12,7 @@ import PromisesSection from '@/components/valentine/PromisesSection';
 import SurpriseSection from '@/components/valentine/SurpriseSection';
 import ForeverSection from '@/components/valentine/ForeverSection';
 import ValentineFooter from '@/components/valentine/ValentineFooter';
-import MusicToggle from '@/components/valentine/MusicToggle';
-
+import YouTubeAudio from "@/components/valentine/YouTubeAudio";
 const Index = () => {
   const [gateOpen, setGateOpen] = useState(false);
 
@@ -22,7 +21,6 @@ const Index = () => {
       {!gateOpen && <ValentineGate onAccept={() => setGateOpen(true)} />}
       <AmbientBackground />
       <FloatingHearts />
-      <MusicToggle />
       <main className="relative z-[1]">
         <HeroSection />
         <LoveLetterSection />
@@ -33,6 +31,7 @@ const Index = () => {
         <PromisesSection />
         <SurpriseSection />
         <ForeverSection />
+        <YouTubeAudio videoId="jTV5hoDQSFQ" />
       </main>
       <ValentineFooter />
     </div>

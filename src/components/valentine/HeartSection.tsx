@@ -1,236 +1,252 @@
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
+
+import img0 from '../../assets/image.png';
+import img1 from '../../assets/image1.png';
+import img2 from '../../assets/image2.png';
+import img3 from '../../assets/image3.png';
+import img4 from '../../assets/image4.png';
+import img5 from '../../assets/image5.png';
+import img6 from '../../assets/image6.png';
+import img7 from '../../assets/image7.png';
+import img8 from '../../assets/image8.jpg';
 
 const HeartSection = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [beatPhase, setBeatPhase] = useState<'expand' | 'contract'>('contract');
-  const [whisperShown, setWhisperShown] = useState(false);
-  const [whisperVisible, setWhisperVisible] = useState(false);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
-  // Heartbeat cycle
+  const [isBeat, setIsBeat] = useState(false);
+
+  // Faster heartbeat (750ms)
   useEffect(() => {
     if (!isInView) return;
+
     const interval = setInterval(() => {
-      setBeatPhase(p => (p === 'expand' ? 'contract' : 'expand'));
-    }, 1500);
+      setIsBeat(prev => !prev);
+    }, 750);
+
     return () => clearInterval(interval);
   }, [isInView]);
 
-  // Whisper on first view
-  useEffect(() => {
-    if (isInView && !whisperShown) {
-      setWhisperShown(true);
-      setWhisperVisible(true);
-      setTimeout(() => setWhisperVisible(false), 3000);
-    }
-  }, [isInView, whisperShown]);
+  const images = [
+    img0,
+    img1,
+    img2,
+    img3,
+    img4,
+    img5,
+    img6,
+    img7,
+    img8,
+  ];
 
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 20 }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 6 + 4,
-        duration: Math.random() * 8 + 10,
-        delay: Math.random() * 5,
-        opacity: Math.random() * 0.15 + 0.05,
-      })),
-    []
-  );
+  // Optimized positions - no overlap, full coverage, organic layout
+  const imageLayout = useMemo(() => {
+    const positions = [
+      // Top row - 3 images across the lobes
+      { x: 22, y: 18, size: 26, rotation: -3 },  // Top left
+      { x: 50, y: 22, size: 24, rotation: 2 },   // Top center
+      { x: 78, y: 18, size: 26, rotation: 3 },   // Top right
+      
+      // Upper middle row - 3 images
+      { x: 25, y: 40, size: 28, rotation: -2 },  // Left
+      { x: 50, y: 42, size: 26, rotation: 1 },   // Center
+      { x: 75, y: 40, size: 28, rotation: 2 },   // Right
+      
+      // Lower middle row - 2 images
+      { x: 38, y: 62, size: 30, rotation: -4 },  // Left
+      { x: 62, y: 62, size: 30, rotation: 4 },   // Right
+      
+      // Bottom - 1 image at the point
+      { x: 50, y: 80, size: 22, rotation: 0 },   // Bottom point
+    ];
 
-  // 10 placeholder images
-  const images = useMemo(
-    () =>
-      Array.from({ length: 10 }, (_, i) => ({
-        id: i,
-        x: 15 + Math.random() * 70,
-        y: 15 + Math.random() * 70,
-        size: 40 + Math.random() * 30,
-        parallaxX: (Math.random() - 0.5) * 8,
-        parallaxY: (Math.random() - 0.5) * 8,
-      })),
-    []
-  );
-
-  const visibleCount = beatPhase === 'expand' ? 10 : 4;
+    return positions.map((pos, index) => ({
+      src: images[index],
+      x: pos.x,
+      y: pos.y,
+      width: pos.size,
+      height: pos.size,
+      rotation: pos.rotation,
+      scale: 1,
+      zIndex: index,
+    }));
+  }, [images]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-20"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-24"
       style={{
         background:
-          'linear-gradient(180deg, hsl(220 40% 8%) 0%, hsl(340 50% 15%) 50%, hsl(220 35% 10%) 100%)',
+          'linear-gradient(180deg, hsl(220 45% 8%) 0%, hsl(340 50% 14%) 50%, hsl(220 40% 10%) 100%)',
       }}
     >
-      {/* Vignette */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, transparent 40%, hsl(220 40% 5% / 0.7) 100%)',
-        }}
-      />
+      {/* Ambient Glow */}
+      <div className="absolute w-[500px] h-[500px] bg-rose-500/20 blur-3xl rounded-full" />
 
-      {/* Particles */}
-      {particles.map(p => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            background: 'hsl(345 80% 65%)',
-            filter: 'blur(2px)',
-            opacity: 0,
-          }}
-          animate={
-            isInView
-              ? {
-                  opacity: [0, p.opacity, 0],
-                  y: [0, -60, -120],
-                }
-              : {}
-          }
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-
-      {/* Whisper */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: whisperVisible ? 1 : 0 }}
-        transition={{ duration: 1.5 }}
-        className="absolute top-[15%] z-20 font-serif text-xl md:text-2xl text-primary-foreground/50 italic"
-      >
-        Look closely…
-      </motion.p>
-
-      {/* Section title */}
+      {/* Title */}
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 1 }}
-        className="relative z-10 font-serif text-3xl md:text-5xl text-primary-foreground mb-12 text-center px-6"
-        style={{ textShadow: '0 0 40px hsl(345 80% 60% / 0.4)' }}
+        className="relative z-10 font-serif text-3xl md:text-5xl text-white mb-16 text-center px-6"
+        style={{ textShadow: '0 0 40px rgba(255,100,150,0.5)' }}
       >
         You Are The Only One Inside My Heart
       </motion.h2>
 
-      {/* Beating heart container */}
+      {/* Heart Container */}
       <motion.div
         className="relative z-10"
-        animate={{
-          scale: beatPhase === 'expand' ? 1.08 : 1,
-        }}
-        transition={{ duration: 0.8, ease: 'easeInOut' }}
+        animate={{ scale: isBeat ? 1.08 : 1 }}
+        transition={{ duration: 0.85, ease: 'easeInOut' }}
       >
-        {/* Glow behind heart */}
+        {/* Glow pulse */}
         <motion.div
-          className="absolute inset-0 -m-8"
+          className="absolute inset-0 -m-10 rounded-full"
           animate={{
-            opacity: beatPhase === 'expand' ? 0.6 : 0.3,
-            scale: beatPhase === 'expand' ? 1.2 : 1,
+            opacity: isBeat ? 0.7 : 0.4,
+            scale: isBeat ? 1.3 : 1,
           }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          transition={{ duration: 0.35 }}
           style={{
             background:
-              'radial-gradient(circle, hsl(345 80% 55% / 0.4) 0%, transparent 70%)',
-            filter: 'blur(40px)',
+              'radial-gradient(circle, rgba(255,90,130,0.6) 0%, transparent 70%)',
+            filter: 'blur(50px)',
           }}
         />
 
-        {/* Heart SVG with clipped images */}
-        <div className="relative w-64 h-64 md:w-80 md:h-80">
+        <div className="relative w-80 h-80 md:w-[420px] md:h-[420px]">
           <svg
             viewBox="0 0 100 100"
             className="w-full h-full"
             style={{
               filter:
-                'drop-shadow(0 0 20px hsl(345 80% 55% / 0.5)) drop-shadow(0 0 60px hsl(345 80% 55% / 0.2))',
+                'drop-shadow(0 0 35px rgba(255,100,150,0.7)) drop-shadow(0 0 80px rgba(255,100,150,0.3))',
             }}
           >
             <defs>
+              {/* Heart clip path */}
               <clipPath id="heartClip">
                 <path d="M50 88 C25 65, 2 45, 2 28 C2 14, 14 2, 28 2 C38 2, 46 8, 50 18 C54 8, 62 2, 72 2 C86 2, 98 14, 98 28 C98 45, 75 65, 50 88Z" />
               </clipPath>
+
+              {/* Soft edge mask - radial gradient for vignette effect */}
+              <radialGradient id="softEdgeMask">
+                <stop offset="0%" stopColor="white" stopOpacity="1" />
+                <stop offset="50%" stopColor="white" stopOpacity="1" />
+                <stop offset="85%" stopColor="white" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="white" stopOpacity="0" />
+              </radialGradient>
+
+              {/* Mask definition using the gradient */}
+              <mask id="vignetteEllipse">
+                <ellipse cx="50" cy="50" rx="50" ry="50" fill="url(#softEdgeMask)" />
+              </mask>
+
+              {/* Individual masks for each image with feathered edges */}
+              {imageLayout.map((item, index) => (
+                <mask key={`mask-${index}`} id={`imageMask${index}`}>
+                  <ellipse
+                    cx={item.x}
+                    cy={item.y}
+                    rx={item.width / 2}
+                    ry={item.height / 2}
+                    fill="url(#softEdgeMask)"
+                  />
+                </mask>
+              ))}
             </defs>
 
-            {/* Heart fill */}
+            {/* Background fill */}
             <path
               d="M50 88 C25 65, 2 45, 2 28 C2 14, 14 2, 28 2 C38 2, 46 8, 50 18 C54 8, 62 2, 72 2 C86 2, 98 14, 98 28 C98 45, 75 65, 50 88Z"
-              fill="hsl(345 70% 45%)"
+              fill="rgba(255,60,110,0.15)"
             />
 
-            {/* Images clipped inside heart */}
+            {/* Images - Mosaic layout with soft edges */}
             <g clipPath="url(#heartClip)">
-              {images.map((img, i) => (
-                <motion.image
-                  key={img.id}
-                  href={`https://picsum.photos/seed/valentine${i}/200/200`}
-                  x={img.x - img.size / 2}
-                  y={img.y - img.size / 2}
-                  width={img.size}
-                  height={img.size}
-                  preserveAspectRatio="xMidYMid slice"
-                  animate={{
-                    opacity: i < visibleCount ? (beatPhase === 'expand' ? 0.85 : 0.6) : 0,
-                    x:
-                      img.x -
-                      img.size / 2 +
-                      (beatPhase === 'expand' ? img.parallaxX : 0),
-                    y:
-                      img.y -
-                      img.size / 2 +
-                      (beatPhase === 'expand' ? img.parallaxY : 0),
-                  }}
-                  transition={{ duration: 0.8, ease: 'easeInOut' }}
-                  style={{ filter: 'brightness(0.7) saturate(1.3)' }}
-                />
-              ))}
+              {imageLayout.map((item, index) => {
+                const halfWidth = item.width / 2;
+                const halfHeight = item.height / 2;
+
+                return (
+                  <motion.g
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: index * 0.08,
+                      ease: [0.16, 1, 0.3, 1]
+                    }}
+                  >
+                    <motion.image
+                      href={item.src}
+                      x={item.x - halfWidth}
+                      y={item.y - halfHeight}
+                      width={item.width}
+                      height={item.height}
+                      preserveAspectRatio="xMidYMid slice"
+                      mask={`url(#imageMask${index})`}
+                      animate={{
+                        scale: isBeat ? 1.03 : 1,
+                      }}
+                      transition={{ duration: 0.35 }}
+                      style={{
+                        transformOrigin: `${item.x}px ${item.y}px`,
+                        filter: 'brightness(1.08) contrast(1.1) saturate(1.15)',
+                      }}
+                      transform={`rotate(${item.rotation} ${item.x} ${item.y})`}
+                    />
+                  </motion.g>
+                );
+              })}
             </g>
 
-            {/* Shimmer overlay */}
-            <motion.path
+            {/* Heart Stroke - Drawn on top */}
+            <path
               d="M50 88 C25 65, 2 45, 2 28 C2 14, 14 2, 28 2 C38 2, 46 8, 50 18 C54 8, 62 2, 72 2 C86 2, 98 14, 98 28 C98 45, 75 65, 50 88Z"
-              fill="url(#shimmer)"
-              animate={{ opacity: [0.05, 0.15, 0.05] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              fill="none"
+              stroke="rgba(255,120,160,0.98)"
+              strokeWidth="3"
+              strokeLinejoin="round"
+              strokeLinecap="round"
             />
-            <defs>
-              <linearGradient id="shimmer" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="white" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="white" stopOpacity="0" />
-                <stop offset="100%" stopColor="white" stopOpacity="0.2" />
-              </linearGradient>
-            </defs>
+
+            {/* Inner glow stroke for depth */}
+            <path
+              d="M50 88 C25 65, 2 45, 2 28 C2 14, 14 2, 28 2 C38 2, 46 8, 50 18 C54 8, 62 2, 72 2 C86 2, 98 14, 98 28 C98 45, 75 65, 50 88Z"
+              fill="none"
+              stroke="rgba(255,180,200,0.6)"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              style={{
+                filter: 'blur(2px)',
+              }}
+            />
           </svg>
         </div>
       </motion.div>
 
-      {/* Text below */}
+      {/* Bottom Text */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1.2, delay: 1 }}
-        className="relative z-10 text-center mt-12 px-6 max-w-lg"
+        transition={{ duration: 1.2, delay: 0.8 }}
+        className="relative z-10 text-center mt-16 px-6 max-w-xl"
       >
         <p
-          className="font-serif text-xl md:text-2xl text-primary-foreground/80 leading-relaxed"
-          style={{ textShadow: '0 0 20px hsl(345 80% 60% / 0.3)' }}
+          className="font-serif text-xl md:text-2xl text-white/80 leading-relaxed"
+          style={{ textShadow: '0 0 20px rgba(255,100,150,0.4)' }}
         >
           You are the only one inside my heart…
           <br />
-          <span className="text-valentine-rose">And it beats for you.</span>
+          <span className="text-rose-400 font-semibold">
+            And it beats for you.
+          </span>
         </p>
       </motion.div>
     </section>
