@@ -30,14 +30,16 @@ const HeartSection = () => {
 
   const images = [
     img0,
+     img8,
+      img4,
     img1,
     img2,
     img3,
-    img4,
+   
     img5,
     img6,
     img7,
-    img8,
+   
   ];
 
   // Optimized positions - no overlap, full coverage, organic layout
