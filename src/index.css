@@ -65,7 +65,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Cormorant Garamond', Georgia, serif;
   }
 }
 

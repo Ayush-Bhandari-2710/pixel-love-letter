@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        handwriting: ["Dancing Script", "cursive"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        handwriting: ["Cormorant Garamond", "Georgia", "serif"],
+        sans: ["Cormorant Garamond", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
